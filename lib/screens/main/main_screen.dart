@@ -120,7 +120,17 @@ class BiographSection extends StatelessWidget {
                     bio,
                     style: bodyTextStyle,
                     textAlign: TextAlign.justify,
-                  )
+                  ),
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  Center(
+                    child: Image.asset(
+                      'assets/images/down-arrow.png',
+                      width: 34,
+                      height: 34,
+                    ),
+                  ),
                 ],
               ),
             ),
