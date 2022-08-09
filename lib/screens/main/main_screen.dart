@@ -52,13 +52,13 @@ class _MainScreenState extends State<MainScreen> {
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(screenSize.width, 70),
-        child: TopBarContents(
-          scrollController: scrollController,
-          items: items,
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size(screenSize.width, 70),
+      //   child: TopBarContents(
+      //     scrollController: scrollController,
+      //     items: items,
+      //   ),
+      // ),
       backgroundColor: mWhiteColor,
       body: SafeArea(
         child: LayoutBuilder(
