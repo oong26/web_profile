@@ -35,7 +35,7 @@ var bodyTextStyle = const TextStyle(
   fontFamily: 'Serif',
   color: mWhiteColor,
   fontWeight: FontWeight.w400,
-  fontSize: 12,
+  fontSize: 14,
 );
 
 var subtitleTextStyle = const TextStyle(

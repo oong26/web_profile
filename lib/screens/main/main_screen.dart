@@ -36,6 +36,108 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget desktopView(BoxConstraints constraints) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          HeaderSection(),
+          BiographSection(constraints: constraints),
+        ],
+      ),
+    );
+  }
+
+  Widget mobileView() {
+    return Container(
+      child: Text('mobile'),
+    );
+  }
+}
+
+class BiographSection extends StatelessWidget {
+  final BoxConstraints constraints;
+
+  const BiographSection({
+    Key? key,
+    required this.constraints,
+  }) : super(key: key);
+
+  final bio =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada, eros ac feugiat feugiat, massa ligula eleifend neque, at pellentesque est urna consectetur lacus. Donec luctus ipsum tellus, ac laoreet massa imperdiet quis. Integer varius neque ut felis finibus volutpat. Nunc accumsan, sem sit amet ullamcorper malesuada, ligula ipsum ornare velit, eget tincidunt orci ipsum ut massa. Nunc ut varius mi, in auctor tellus. Praesent hendrerit purus ac nibh viverra, eu congue purus pretium. Nulla sit amet nulla efficitur est convallis facilisis commodo eu metus. In hac habitasse platea dictumst. Integer hendrerit convallis vulputate. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas commodo leo metus, non dapibus diam elementum vel. Aliquam vitae tincidunt enim.\n\nCras vitae rutrum magna, sit amet volutpat velit. Suspendisse potenti. Quisque malesuada ornare lacus vitae tempus. Suspendisse blandit turpis vitae tincidunt dapibus. Mauris sed nisi dui. Mauris et nulla eleifend, varius quam sed, ullamcorper nisl. Vestibulum ornare laoreet tortor ac posuere. Nulla commodo fringilla mi, et sagittis lacus ultricies eget. Fusce lacinia congue odio nec vehicula. Nunc vehicula fringilla tellus.\n\nDonec pretium tristique vulputate. Nullam sed vestibulum est, vitae consequat elit. Integer non nisi ut magna blandit vulputate quis ut arcu. Proin a quam id orci gravida commodo eget suscipit mauris. Duis scelerisque eros ac congue iaculis. Sed sollicitudin vitae nisi quis faucibus. Vestibulum blandit, lectus quis elementum congue, ligula velit placerat magna, eu volutpat augue sapien in felis. In hac habitasse platea dictumst.';
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: mBlackColor,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 90,
+              ),
+              child: Image.asset(
+                'assets/images/kurt2.png',
+                width: 580,
+                height: 684,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.only(left: 60, right: 150),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Lorem Ip',
+                    style: titleTextStyle,
+                  ),
+                  SizedBox(
+                      height: 80,
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/smile.png',
+                            width: 75,
+                            height: 71,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Dolor Sit',
+                            style: titleTextStyle,
+                          ),
+                        ],
+                      )),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Text(
+                    bio,
+                    style: bodyTextStyle,
+                    textAlign: TextAlign.justify,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HeaderSection extends StatelessWidget {
+  const HeaderSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -107,22 +209,18 @@ class _MainScreenState extends State<MainScreen> {
         ),
         Expanded(
           flex: 1,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 90,
-              ),
-              child: Image.asset('assets/images/kurt.png'),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 90,
+            ),
+            child: Image.asset(
+              'assets/images/kurt.png',
+              width: 580,
+              height: 684,
             ),
           ),
         )
       ],
-    );
-  }
-
-  Widget mobileView() {
-    return Container(
-      child: Text('mobile'),
     );
   }
 }
