@@ -3,13 +3,20 @@ import 'package:web_profile/constants/colors.dart';
 import 'package:web_profile/constants/fontstyle.dart';
 
 class TopBarContents extends StatefulWidget {
-  const TopBarContents({Key? key}) : super(key: key);
+  ScrollController scrollController;
+  List<double> items = [];
+
+  TopBarContents(
+      {Key? key, required this.scrollController, required this.items})
+      : super(key: key);
 
   @override
   State<TopBarContents> createState() => _TopBarContentsState();
 }
 
 class _TopBarContentsState extends State<TopBarContents> {
+  int _selectedMenu = 0;
+
   final List _isHovering = [
     false,
     false,
@@ -40,13 +47,20 @@ class _TopBarContentsState extends State<TopBarContents> {
                     value ? _isHovering[0] = true : _isHovering[0] = false;
                   });
                 },
-                onTap: () {},
+                onTap: () {
+                  setState(() => _selectedMenu = 0);
+                  widget.scrollController.animateTo(widget.items[0],
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeIn);
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'HOME',
-                      style: menuActiveTextStyle,
+                      style: _selectedMenu == 0
+                          ? menuActiveTextStyle
+                          : menuTextStyle,
                     ),
                     const SizedBox(height: 5),
                     Visibility(
@@ -72,13 +86,20 @@ class _TopBarContentsState extends State<TopBarContents> {
                     value ? _isHovering[1] = true : _isHovering[1] = false;
                   });
                 },
-                onTap: () {},
+                onTap: () {
+                  setState(() => _selectedMenu = 1);
+                  widget.scrollController.animateTo(widget.items[1],
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeIn);
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'ABOUT',
-                      style: menuTextStyle,
+                      style: _selectedMenu == 1
+                          ? menuActiveTextStyle
+                          : menuTextStyle,
                     ),
                     const SizedBox(height: 5),
                     Visibility(
@@ -104,13 +125,20 @@ class _TopBarContentsState extends State<TopBarContents> {
                     value ? _isHovering[2] = true : _isHovering[2] = false;
                   });
                 },
-                onTap: () {},
+                onTap: () {
+                  setState(() => _selectedMenu = 2);
+                  widget.scrollController.animateTo(widget.items[2],
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeIn);
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'PORTFOLIO',
-                      style: menuTextStyle,
+                      style: _selectedMenu == 2
+                          ? menuActiveTextStyle
+                          : menuTextStyle,
                     ),
                     const SizedBox(height: 5),
                     Visibility(
@@ -136,13 +164,20 @@ class _TopBarContentsState extends State<TopBarContents> {
                     value ? _isHovering[3] = true : _isHovering[3] = false;
                   });
                 },
-                onTap: () {},
+                onTap: () {
+                  setState(() => _selectedMenu = 3);
+                  widget.scrollController.animateTo(widget.items[3],
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeIn);
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'CONTACT',
-                      style: menuTextStyle,
+                      style: _selectedMenu == 3
+                          ? menuActiveTextStyle
+                          : menuTextStyle,
                     ),
                     const SizedBox(height: 5),
                     Visibility(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_profile/constants/colors.dart';
 import 'package:web_profile/constants/fontstyle.dart';
+import 'package:web_profile/widgets/get_box_offset.dart';
 import 'package:web_profile/widgets/portfolio_card.dart';
 import 'package:web_profile/widgets/top_bar_contents.dart';
 
@@ -12,21 +13,58 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<double> items = [];
+
+  ScrollController scrollController = ScrollController();
+
+  List<Widget> sections = [];
+
+  final List _isHovering = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+
+  @override
+  void initState() {
+    setState(() {
+      sections = [
+        HeaderSection(
+          scrollController: scrollController,
+        ),
+        BiographSection(),
+        PortfolioSection(),
+        ContactSection(),
+      ];
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    items = List.generate(sections.length, (index) => index.toDouble());
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(screenSize.width, 70),
-        child: const TopBarContents(),
+        child: TopBarContents(
+          scrollController: scrollController,
+          items: items,
+        ),
       ),
       backgroundColor: mWhiteColor,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             if (constraints.maxWidth > 715) {
-              return desktopView(constraints);
+              return desktopView(constraints, scrollController);
             } else {
               return mobileView();
             }
@@ -36,15 +74,20 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget desktopView(BoxConstraints constraints) {
+  Widget desktopView(
+      BoxConstraints constraints, ScrollController scrollController) {
     return SingleChildScrollView(
+      controller: scrollController,
       child: Column(
-        children: [
-          HeaderSection(),
-          BiographSection(constraints: constraints),
-          PortfolioSection(),
-          ContactSection(constraints: constraints),
-        ],
+        children: List.generate(
+          items.length,
+          (index) => GetBoxOffset(
+            offset: (offset) {
+              items[index] = offset.dy;
+            },
+            child: sections[index],
+          ),
+        ),
       ),
     );
   }
@@ -57,8 +100,7 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class ContactSection extends StatefulWidget {
-  final BoxConstraints constraints;
-  const ContactSection({Key? key, required this.constraints}) : super(key: key);
+  const ContactSection({Key? key}) : super(key: key);
 
   @override
   State<ContactSection> createState() => _ContactSectionState();
@@ -364,11 +406,8 @@ class PortfolioSection extends StatelessWidget {
 }
 
 class BiographSection extends StatelessWidget {
-  final BoxConstraints constraints;
-
   const BiographSection({
     Key? key,
-    required this.constraints,
   }) : super(key: key);
 
   final bio =
@@ -452,8 +491,11 @@ class BiographSection extends StatelessWidget {
 }
 
 class HeaderSection extends StatelessWidget {
+  final ScrollController scrollController;
+
   const HeaderSection({
     Key? key,
+    required this.scrollController,
   }) : super(key: key);
 
   @override
