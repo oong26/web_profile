@@ -43,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
           HeaderSection(),
           BiographSection(constraints: constraints),
           PortfolioSection(),
+          ContactSection(constraints: constraints),
         ],
       ),
     );
@@ -51,6 +52,218 @@ class _MainScreenState extends State<MainScreen> {
   Widget mobileView() {
     return Container(
       child: Text('mobile'),
+    );
+  }
+}
+
+class ContactSection extends StatefulWidget {
+  final BoxConstraints constraints;
+  const ContactSection({Key? key, required this.constraints}) : super(key: key);
+
+  @override
+  State<ContactSection> createState() => _ContactSectionState();
+}
+
+class _ContactSectionState extends State<ContactSection> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  bool formErrorValidation = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: mBlackColor,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(
+                top: 80,
+              ),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 90, horizontal: 112),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: mRedColor,
+              ),
+              child: Text(
+                'GET IN\nTOUCH\nWITH\nME',
+                style: bodyTextStyle.copyWith(fontSize: 48),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.only(
+                  left: 60, top: 80, right: 150, bottom: 80),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Lorem Ip',
+                      style: titleTextStyle,
+                    ),
+                    SizedBox(
+                        height: 80,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/smile.png',
+                              width: 75,
+                              height: 71,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Dolor Sit',
+                              style: titleTextStyle,
+                            ),
+                          ],
+                        )),
+                    const SizedBox(
+                      height: 46,
+                    ),
+                    formErrorValidation
+                        ? Text(
+                            'Please complete the form first!',
+                            style: bodyTextStyle.copyWith(
+                              color: mRedColor,
+                              fontSize: 14,
+                            ),
+                          )
+                        : Container(),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      width: 400,
+                      child: TextFormField(
+                        controller: _nameController,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          hintText: 'Your Name',
+                          hintStyle: bodyTextStyle.copyWith(
+                              fontSize: 20, color: mGreyColor),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 24),
+                          errorStyle: bodyTextStyle.copyWith(
+                              color: mRedColor, fontSize: 14),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Name is required';
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 21,
+                    ),
+                    SizedBox(
+                      width: 400,
+                      child: TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          hintText: 'Email',
+                          hintStyle: bodyTextStyle.copyWith(
+                              fontSize: 20, color: mGreyColor),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 24),
+                          errorStyle: bodyTextStyle.copyWith(
+                              color: mRedColor, fontSize: 14),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Email is required';
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 21,
+                    ),
+                    SizedBox(
+                      width: 400,
+                      child: TextFormField(
+                        controller: _messageController,
+                        keyboardType: TextInputType.text,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          hintText: 'Your Message',
+                          hintStyle: bodyTextStyle.copyWith(
+                              fontSize: 20, color: mGreyColor),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 24),
+                          errorStyle: bodyTextStyle.copyWith(
+                              color: mRedColor, fontSize: 14),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Message is required';
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 46,
+                    ),
+                    SizedBox(
+                      width: 400,
+                      child: Center(
+                        child: TextButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() => formErrorValidation = false);
+                              print('valid');
+                            } else {
+                              setState(() => formErrorValidation = true);
+                              print('invalid');
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                              backgroundColor: mRedColor,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              )),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 7, horizontal: 23),
+                            child: Text(
+                              "SEND",
+                              style: bodyTextStyle.copyWith(fontSize: 20),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -98,7 +311,7 @@ class PortfolioSection extends StatelessWidget {
                         ),
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 313,
                   child: Divider(
                     thickness: 2,
