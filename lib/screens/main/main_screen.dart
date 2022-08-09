@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_profile/constants/colors.dart';
 import 'package:web_profile/constants/fontstyle.dart';
 import 'package:web_profile/widgets/get_box_offset.dart';
 import 'package:web_profile/widgets/portfolio_card.dart';
 import 'package:web_profile/widgets/top_bar_contents.dart';
+
+import 'cubit/select_menu_cubit.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -30,18 +33,25 @@ class _MainScreenState extends State<MainScreen> {
     false,
   ];
 
+  int selectedMenu = 0;
+
   @override
   void initState() {
-    setState(() {
-      sections = [
-        HeaderSection(
-          scrollController: scrollController,
-        ),
-        BiographSection(),
-        PortfolioSection(),
-        ContactSection(),
-      ];
-    });
+    sections = [
+      HeaderSection(
+        scrollController: scrollController,
+        nextSection: 800.0,
+      ),
+      BiographSection(
+        scrollController: scrollController,
+        nextSection: 1550.0,
+      ),
+      PortfolioSection(
+        scrollController: scrollController,
+        nextSection: 2350.0,
+      ),
+      ContactSection(),
+    ];
 
     super.initState();
   }
@@ -49,16 +59,23 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     items = List.generate(sections.length, (index) => index.toDouble());
+
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: Size(screenSize.width, 70),
-      //   child: TopBarContents(
-      //     scrollController: scrollController,
-      //     items: items,
-      //   ),
-      // ),
+      appBar: PreferredSize(
+        preferredSize: Size(screenSize.width, 70),
+        child: BlocConsumer<SelectMenuCubit, int>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return TopBarContents(
+              scrollController: scrollController,
+              items: items,
+              selectedMenu: state,
+            );
+          },
+        ),
+      ),
       backgroundColor: mWhiteColor,
       body: SafeArea(
         child: LayoutBuilder(
@@ -311,8 +328,13 @@ class _ContactSectionState extends State<ContactSection> {
 }
 
 class PortfolioSection extends StatelessWidget {
+  final ScrollController scrollController;
+  final double nextSection;
+
   const PortfolioSection({
     Key? key,
+    required this.scrollController,
+    required this.nextSection,
   }) : super(key: key);
 
   @override
@@ -377,10 +399,18 @@ class PortfolioSection extends StatelessWidget {
                   height: 60,
                 ),
                 Center(
-                  child: Image.asset(
-                    'assets/images/down-arrow.png',
-                    width: 34,
-                    height: 34,
+                  child: InkWell(
+                    onTap: () {
+                      scrollController.animateTo(nextSection,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeIn);
+                      BlocProvider.of<SelectMenuCubit>(context).selectMenu(3);
+                    },
+                    child: Image.asset(
+                      'assets/images/down-arrow.png',
+                      width: 34,
+                      height: 34,
+                    ),
                   ),
                 ),
               ],
@@ -406,8 +436,13 @@ class PortfolioSection extends StatelessWidget {
 }
 
 class BiographSection extends StatelessWidget {
+  final ScrollController scrollController;
+  final double nextSection;
+
   const BiographSection({
     Key? key,
+    required this.scrollController,
+    required this.nextSection,
   }) : super(key: key);
 
   final bio =
@@ -474,10 +509,18 @@ class BiographSection extends StatelessWidget {
                     height: 80,
                   ),
                   Center(
-                    child: Image.asset(
-                      'assets/images/down-arrow.png',
-                      width: 34,
-                      height: 34,
+                    child: InkWell(
+                      onTap: () {
+                        scrollController.animateTo(nextSection,
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeIn);
+                        BlocProvider.of<SelectMenuCubit>(context).selectMenu(2);
+                      },
+                      child: Image.asset(
+                        'assets/images/down-arrow.png',
+                        width: 34,
+                        height: 34,
+                      ),
                     ),
                   ),
                 ],
@@ -492,10 +535,12 @@ class BiographSection extends StatelessWidget {
 
 class HeaderSection extends StatelessWidget {
   final ScrollController scrollController;
+  final double nextSection;
 
   const HeaderSection({
     Key? key,
     required this.scrollController,
+    required this.nextSection,
   }) : super(key: key);
 
   @override
@@ -542,10 +587,15 @@ class HeaderSection extends StatelessWidget {
                 height: 80,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  scrollController.animateTo(nextSection,
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeIn);
+                  BlocProvider.of<SelectMenuCubit>(context).selectMenu(1);
+                },
                 style: TextButton.styleFrom(
                     backgroundColor: mBlackColor,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     )),
                 child: Padding(
