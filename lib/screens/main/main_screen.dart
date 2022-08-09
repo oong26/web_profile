@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_profile/constants/colors.dart';
 import 'package:web_profile/constants/fontstyle.dart';
+import 'package:web_profile/widgets/portfolio_card.dart';
 import 'package:web_profile/widgets/top_bar_contents.dart';
 
 class MainScreen extends StatefulWidget {
@@ -41,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           HeaderSection(),
           BiographSection(constraints: constraints),
+          PortfolioSection(),
         ],
       ),
     );
@@ -49,6 +51,101 @@ class _MainScreenState extends State<MainScreen> {
   Widget mobileView() {
     return Container(
       child: Text('mobile'),
+    );
+  }
+}
+
+class PortfolioSection extends StatelessWidget {
+  const PortfolioSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Container(
+            padding: const EdgeInsets.only(left: 60, right: 150),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Lorem Ip',
+                  style: titleTextStyle.copyWith(
+                    color: mBlackColor,
+                  ),
+                ),
+                SizedBox(
+                    height: 80,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/smile.png',
+                          width: 75,
+                          height: 71,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Dolor Sit',
+                          style: titleTextStyle.copyWith(
+                            color: mBlackColor,
+                          ),
+                        ),
+                      ],
+                    )),
+                SizedBox(
+                  width: 313,
+                  child: Divider(
+                    thickness: 2,
+                    color: mRedColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                SizedBox(
+                  height: 360,
+                  child: GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 3,
+                    children: List.generate(6, (index) {
+                      return PortfolioCard();
+                    }),
+                  ),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                Center(
+                  child: Image.asset(
+                    'assets/images/down-arrow.png',
+                    width: 34,
+                    height: 34,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 90,
+            ),
+            child: Image.asset(
+              'assets/images/kurt.png',
+              width: 580,
+              height: 684,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

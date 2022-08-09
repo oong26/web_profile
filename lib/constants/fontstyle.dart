@@ -44,3 +44,10 @@ var subtitleTextStyle = const TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 32,
 );
+
+var appTextStyle = const TextStyle(
+  fontFamily: 'Serif',
+  color: mBlackColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 24,
+);
